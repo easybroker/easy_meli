@@ -1,6 +1,6 @@
 # EasyMeli
 
-A simple gem to access low level MercadoLibre api calls.
+A simple gem to access low level MercadoLibre api calls. This is the draft beta version.
 
 ## Installation
 
@@ -24,8 +24,8 @@ Configure the gem with your application ID and secret key.
 
 ```
 EasyMeli.configure do |config|
-  config.application_id’ = ''
-  config.secret_key = ''
+  config.application_id = 'your_app_id'
+  config.secret_key = 'your_secret_key'
 end
 ```
 
