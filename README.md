@@ -48,6 +48,23 @@ If you want to refresh the token call
 response = EasyMeli::AuthorizationClient.new.refresh_token('a_refresh_token')
 ```
 
+Once you can have an access token you can create a client and call the supported http verb methods.
+
+```
+client = EasyMeli::ApiClient.new(access_token)
+
+client.get(path, query: { a: 1 })
+client.post(path, query: { a: 1 }, body: { b: 1 })
+client.put(path, query: { a: 1 }, body: { b: 1 })
+client.delete(path, query: { a: 1 })
+```
+
+You can also pass a logger when instantiating the `EasyMeli::ApiClient` or `EasyMeli::AuthorizationClient`. The logger class must implement a `log` method which will be called with the [HTTParty response](https://www.rubydoc.info/github/jnunemaker/httparty/HTTParty/Response) for every remote request sent.
+
+```
+EasyMeli::AuthorizationClient.new(logger: my_logger)
+EasyMeli::ApiClient.new(access_token, logger: my_logger)
+```
 
 ## Development
 
