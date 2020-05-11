@@ -6,11 +6,8 @@ class EasyMeliTest < Minitest::Test
   end
 
   def test_config
-    EasyMeli.configure do |config|
-      config.application_id = 'foo'
-      config.secret_key = 'bar'
-    end
-    assert_equal 'foo', EasyMeli.configuration.application_id
-    assert_equal 'bar', EasyMeli.configuration.secret_key
+    # The config is set in test_helper
+    assert_equal 'test_app_id', EasyMeli.configuration.application_id
+    assert_equal 'test_secret_key', EasyMeli.configuration.secret_key
   end
 end

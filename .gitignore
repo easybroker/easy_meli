@@ -8,3 +8,4 @@
 /tmp/
 Gemfile.lock
 /vender
+.DS_Store
