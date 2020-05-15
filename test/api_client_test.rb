@@ -37,7 +37,23 @@ class ApiClientTest < Minitest::Test
     test_delete
   end
 
+  def test_invalid_grant_error
+    assert_authorization_error('error' => 'invalid_grant')
+  end
+
+  def test_message_error
+    assert_authorization_error('message' => 'Malformed access_token')
+  end
+
   private
+
+  def assert_authorization_error(body)
+    assert_raises EasyMeli::AuthenticationError do 
+      stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+        to_return(body: body.to_json)
+      client.get('test', query: { param1: 1, param2: 2 })
+    end
+  end
 
   def stub_verb_request(verb, path, params = {})
     params[:query] = query = params[:query] || {}

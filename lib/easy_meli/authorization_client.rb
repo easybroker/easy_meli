@@ -3,7 +3,7 @@
 class EasyMeli::AuthorizationClient
   include HTTParty
 
-  AUTH_TOKEN_URL = 'https://api.mercadolibre.com/authorization/oauth/token'
+  AUTH_TOKEN_URL = 'https://api.mercadolibre.com/oauth/token'
   AUTH_PATH = '/authorization'
   BASE_AUTH_URLS = {
     AR: 'https://auth.mercadolibre.com.ar',

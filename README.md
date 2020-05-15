@@ -66,6 +66,22 @@ EasyMeli::AuthorizationClient.new(logger: my_logger)
 EasyMeli::ApiClient.new(access_token, logger: my_logger)
 ```
 
+### Complete example showing how to retrieve a user profile
+```
+EasyMeli.configure do |config|
+  config.application_id = "your_app_id"
+  config.secret_key = "your_secret_key"
+end
+
+authorization_client = EasyMeli::AuthorizationClient.new
+token = authorization_client.refresh_token(previously_stored_refresh_token).to_h['access_token']
+
+api_client = EasyMeli::ApiClient.new(token)
+
+response = api_client.get('/users/me')
+
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
