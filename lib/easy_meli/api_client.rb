@@ -51,9 +51,9 @@ class EasyMeli::ApiClient
   end
 
   def check_authentication(response)
-    response_message = error_message_from_body(response.to_h)
+    response_message = error_message_from_body(response.to_h) if response.parsed_response.is_a? Hash
     return if response_message.to_s.empty?
-    
+
     TOKEN_ERRORS.keys.each do |key|
       if response_message.include?(key)
         raise EasyMeli::AuthenticationError.new(TOKEN_ERRORS[key], response)
