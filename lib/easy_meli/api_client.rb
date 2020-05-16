@@ -12,6 +12,7 @@ class EasyMeli::ApiClient
   }
 
   base_uri API_ROOT_URL 
+  headers EasyMeli::DEFAULT_HEADERS
   format :json
 
   attr_reader :logger, :access_token
@@ -42,6 +43,7 @@ class EasyMeli::ApiClient
   def send_request(verb, path = '', params = {})
     query = params[:query] || params['query'] || {}
     query[:access_token] = access_token
+
     self.class.send(verb, path, params.merge(query)).tap do |response|
       logger&.log response
       check_authentication(response)

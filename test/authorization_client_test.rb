@@ -65,7 +65,8 @@ class AuthorizationClientTest < Minitest::Test
         params.merge(
           client_id: 'test_app_id',
           client_secret: 'test_secret_key'
-        )
+        ),
+        headers: EasyMeli::DEFAULT_HEADERS
       ).
       to_return(body: DUMMY_TOKEN_RESPONSE.to_json)
   end

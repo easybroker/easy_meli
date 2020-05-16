@@ -21,6 +21,7 @@ class EasyMeli::AuthorizationClient
     DO: 'https://auth.mercadolibre.com.do'
   }
 
+  headers EasyMeli::DEFAULT_HEADERS
   format :json
 
   attr_reader :logger
