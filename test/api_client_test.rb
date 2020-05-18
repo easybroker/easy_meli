@@ -45,10 +45,16 @@ class ApiClientTest < Minitest::Test
     assert_authorization_error('message' => 'Malformed access_token')
   end
 
+  def test_array_response
+    stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+      to_return(body: '[{}, {}]')
+    client.get('test', query: { param1: 1, param2: 2 })
+  end
+
   private
 
   def assert_authorization_error(body)
-    assert_raises EasyMeli::AuthenticationError do 
+    assert_raises EasyMeli::AuthenticationError do
       stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
         to_return(body: body.to_json)
       client.get('test', query: { param1: 1, param2: 2 })
