@@ -17,7 +17,7 @@ class EasyMeli::ApiClient
 
   attr_reader :logger, :access_token
 
-  def initialize(access_token, logger: nil)
+  def initialize(access_token = nil, logger: nil)
     @logger = logger
     @access_token = access_token
   end
@@ -42,7 +42,7 @@ class EasyMeli::ApiClient
 
   def send_request(verb, path = '', params = {})
     query = params[:query] || params['query'] || {}
-    query[:access_token] = access_token
+    query[:access_token] = access_token if access_token
 
     self.class.send(verb, path, params.merge(query)).tap do |response|
       logger&.log response

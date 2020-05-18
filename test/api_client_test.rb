@@ -12,6 +12,12 @@ class ApiClientTest < Minitest::Test
     client.get('test', query: { param1: 1, param2: 2 })
   end
 
+  def test_get_without_access_token
+    @client = EasyMeli::ApiClient.new(nil)
+    stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 })
+    client.get('test', query: { param1: 1, param2: 2 })
+  end
+
   def test_put
     stub_verb_request(:put, 'test', query: { param1: 1, param2: 2 }, body: 'param3=3')
     client.put('test', query: { param1: 1, param2: 2}, body: { param3: 3})
@@ -64,7 +70,7 @@ class ApiClientTest < Minitest::Test
   def stub_verb_request(verb, path, params = {})
     params[:query] = query = params[:query] || {}
     params[:headers] = EasyMeli::DEFAULT_HEADERS
-    query[:access_token] = 'test_token'
+    query[:access_token] = client.access_token if client.access_token
     url = [EasyMeli::ApiClient::API_ROOT_URL, path].join
     stub_request(verb, url).with(params)
   end
