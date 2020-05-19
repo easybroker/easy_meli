@@ -22,11 +22,11 @@ module EasyMeli
   end
 
   def self.create_token(code, redirect_uri, logger: nil)
-    EasyMeli::AuthorizationClient.create_token(code, redirect_uri, logger: nil)
+    EasyMeli::AuthorizationClient.create_token(code, redirect_uri, logger: logger)
   end
 
   def self.refresh_token(refresh_token, logger: nil)
-    EasyMeli::AuthorizationClient.refresh_token(refresh_token, logger: nil)
+    EasyMeli::AuthorizationClient.refresh_token(refresh_token, logger: logger)
   end
 
   def self.api_client(access_token: nil, refresh_token: nil, logger: nil)
