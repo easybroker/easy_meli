@@ -26,27 +26,68 @@ class AuthorizationClientTest < Minitest::Test
     end
   end
 
-  def test_create_token(logger = nil)
+  def test_create_token_with_response(logger = nil)
     stub_auth_request(
       code: 'test_code',
       grant_type: 'authorization_code',
       redirect_uri: 'test_redirect_uri'
     )
 
-    response = EasyMeli::AuthorizationClient.new(logger: logger).create_token('test_code', 'test_redirect_uri')
+    response = EasyMeli::AuthorizationClient.new(logger: logger).
+      create_token_with_response('test_code', 'test_redirect_uri')
 
     assert_equal(DUMMY_TOKEN_RESPONSE, response.to_h)
+  end
+
+  def test_create_token
+    stub_auth_request(
+      code: 'test_code',
+      grant_type: 'authorization_code',
+      redirect_uri: 'test_redirect_uri'
+    )
+    response = EasyMeli::AuthorizationClient.create_token('test_code', 'test_redirect_uri')
+    assert_equal DUMMY_TOKEN_RESPONSE, response
+  end
+
+  def test_create_token_fail
+    stub_auth_request(
+      code: 'test_code',
+      grant_type: 'authorization_code',
+      redirect_uri: 'test_redirect_uri',
+      response_status: 403
+    )
+    assert_raises EasyMeli::AuthenticationError do 
+      EasyMeli::AuthorizationClient.create_token('test_code', 'test_redirect_uri')
+    end
   end
 
   def test_create_token_logger
     logger = mock()
     logger.expects(:log)
-    test_create_token(logger)
+    test_create_token_with_response(logger)
   end
 
-  def test_refresh_token(logger = nil)
+  def test_refresh_token
     stub_auth_request(grant_type: 'refresh_token', refresh_token: 'test_token')
-    response = EasyMeli::AuthorizationClient.new(logger: logger).refresh_token('test_token')
+    access_token = EasyMeli::AuthorizationClient.refresh_token('test_token')
+    assert_equal DUMMY_TOKEN_RESPONSE['access_token'], access_token
+  end
+
+  def test_refresh_token_fail
+    stub_auth_request(
+      grant_type: 'refresh_token',
+      refresh_token: 'test_token',
+      response_status: 403)
+  
+    assert_raises EasyMeli::AuthenticationError do 
+      EasyMeli::AuthorizationClient.refresh_token('test_token')
+    end
+  end
+
+  def test_refresh_token_with_response(logger = nil)
+    stub_auth_request(grant_type: 'refresh_token', refresh_token: 'test_token')
+    response = EasyMeli::AuthorizationClient.new(logger: logger).
+      refresh_token_with_response('test_token')
 
     assert_equal(DUMMY_TOKEN_RESPONSE, response.to_h)
   end
@@ -54,12 +95,13 @@ class AuthorizationClientTest < Minitest::Test
   def test_refresh_token_logger
     logger = mock()
     logger.expects(:log)
-    test_refresh_token(logger)
+    test_refresh_token_with_response(logger)
   end
 
   private
 
   def stub_auth_request(params = {})
+    response_status = params.delete(:response_status) || 200
     stub_request(:post, EasyMeli::AuthorizationClient::AUTH_TOKEN_URL).
       with(query: 
         params.merge(
@@ -68,6 +110,6 @@ class AuthorizationClientTest < Minitest::Test
         ),
         headers: EasyMeli::DEFAULT_HEADERS
       ).
-      to_return(body: DUMMY_TOKEN_RESPONSE.to_json)
+      to_return(body: DUMMY_TOKEN_RESPONSE.to_json, status: response_status)
   end
 end

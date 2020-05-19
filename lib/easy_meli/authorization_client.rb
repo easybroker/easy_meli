@@ -20,6 +20,7 @@ class EasyMeli::AuthorizationClient
     PT: 'https://auth.mercadolibre.com.pt',
     DO: 'https://auth.mercadolibre.com.do'
   }
+  ACCESS_TOKEN_KEY = 'access_token'
 
   headers EasyMeli::DEFAULT_HEADERS
   format :json
@@ -39,7 +40,25 @@ class EasyMeli::AuthorizationClient
     HTTParty::Request.new(:get, country_auth_url(country_code), query: params).uri.to_s
   end
 
-  def create_token(code, redirect_uri)
+  def self.create_token(code, redirect_uri, logger: nil)
+    response = self.new(logger: logger).create_token_with_response(code, redirect_uri)
+    if response.success?
+      response.to_h
+    else
+      raise EasyMeli::AuthenticationError.new('Error Creating Token', response)
+    end
+  end
+
+  def self.refresh_token(refresh_token, logger: nil)
+    response = self.new(logger: logger).refresh_token_with_response(refresh_token)
+    if response.success?
+      response.to_h[EasyMeli::AuthorizationClient::ACCESS_TOKEN_KEY]
+    else
+      raise EasyMeli::AuthenticationError.new('Error Refreshing Token', response)
+    end
+  end
+
+  def create_token_with_response(code, redirect_uri)
     query_params = merge_auth_params(
       grant_type: 'authorization_code',
       code: code,
@@ -48,7 +67,7 @@ class EasyMeli::AuthorizationClient
     post_auth(query_params)
   end
 
-  def refresh_token(refresh_token)
+  def refresh_token_with_response(refresh_token)
     query_params = merge_auth_params(
       grant_type: 'refresh_token',
       refresh_token: refresh_token

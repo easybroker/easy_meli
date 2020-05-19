@@ -32,26 +32,26 @@ end
 To get the authorization url that the end-user uses to give your app authorization to access MercadoLibre on your part call the `authorization_url` with the desired country and the url to redirect to in order to complete the authorization.
 
 ```ruby
-EasyMeli::AuthorizationClient.authorization_url('MX', 'your_redirect_url')
+EasyMeli.authorization_url('MX', 'your_redirect_url')
 ```
 
 Once MercadoLibre calls your redirect url you can get a refresh token by calling
 
 ```ruby
-response = EasyMeli::AuthorizationClient.new.create_token('the_code_in_the_redirect', 'the_same_redirect_url_as_above')
+response = EasyMeli.create_token('the_code_in_the_redirect', 'the_same_redirect_url_as_above')
 ```
 This will return a response object with a json body that you can easily access via `response.to_h`.
 
 If you want to refresh the token call 
 
 ```ruby
-response = EasyMeli::AuthorizationClient.new.refresh_token('a_refresh_token')
+access_token = EasyMeli.refresh_token('a_refresh_token')
 ```
 
 Once you can have an access token you can create a client and call the supported http verb methods.
 
 ```ruby
-client = EasyMeli::ApiClient.new(access_token)
+client = EasyMeli.api_client(refresh_token: refresh_token)
 
 client.get(path, query: { a: 1 })
 client.post(path, query: { a: 1 }, body: { b: 1 })
@@ -59,25 +59,21 @@ client.put(path, query: { a: 1 }, body: { b: 1 })
 client.delete(path, query: { a: 1 })
 ```
 
-You can also pass a logger when instantiating the `EasyMeli::ApiClient` or `EasyMeli::AuthorizationClient`. The logger class must implement a `log` method which will be called with the [HTTParty response](https://www.rubydoc.info/github/jnunemaker/httparty/HTTParty/Response) for every remote request sent.
+You can also pass a logger to any methods that make remote calls. The logger class must implement a `log` method which will be called with the [HTTParty response](https://www.rubydoc.info/github/jnunemaker/httparty/HTTParty/Response) for every remote request sent.
 
 ```ruby
-EasyMeli::AuthorizationClient.new(logger: my_logger)
-EasyMeli::ApiClient.new(access_token, logger: my_logger)
+EasyMeli.create_token('the_code_in_the_redirect', 'the_same_redirect_url_as_above', logger: my_logger)
+EasyMeli.api_client(refresh_token: refresh_token, logger: my_logger)
 ```
 
-### Complete example showing how to retrieve a user profile
+### Example of how to retrieve a user profile
 ```ruby
 EasyMeli.configure do |config|
   config.application_id = "your_app_id"
   config.secret_key = "your_secret_key"
 end
 
-authorization_client = EasyMeli::AuthorizationClient.new
-token = authorization_client.refresh_token(previously_stored_refresh_token).to_h['access_token']
-
-api_client = EasyMeli::ApiClient.new(token)
-
+api_client = EasyMeli.api_client(refresh_token: refresh_token)
 response = api_client.get('/users/me')
 
 ```
