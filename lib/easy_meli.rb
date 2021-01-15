@@ -25,12 +25,12 @@ module EasyMeli
     EasyMeli::AuthorizationClient.create_token(code, redirect_uri, logger: logger)
   end
 
-  def self.refresh_token(refresh_token, logger: nil)
-    EasyMeli::AuthorizationClient.refresh_token(refresh_token, logger: logger)
+  def self.access_token(refresh_token, logger: nil)
+    EasyMeli::AuthorizationClient.access_token(refresh_token, logger: logger)
   end
 
   def self.api_client(access_token: nil, refresh_token: nil, logger: nil)
-    access_token = self.refresh_token(refresh_token, logger: logger) if refresh_token
+    access_token ||= self.access_token(refresh_token, logger: logger) if refresh_token
     EasyMeli::ApiClient.new(access_token, logger: logger)
   end
 end

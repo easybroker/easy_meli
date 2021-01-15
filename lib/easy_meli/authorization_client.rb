@@ -35,7 +35,7 @@ class EasyMeli::AuthorizationClient
     params = {
       client_id: EasyMeli.configuration.application_id,
       response_type: 'code',
-      redirect_uri: redirect_uri 
+      redirect_uri: redirect_uri
     }
     HTTParty::Request.new(:get, country_auth_url(country_code), query: params).uri.to_s
   end
@@ -49,8 +49,8 @@ class EasyMeli::AuthorizationClient
     end
   end
 
-  def self.refresh_token(refresh_token, logger: nil)
-    response = self.new(logger: logger).refresh_token_with_response(refresh_token)
+  def self.access_token(refresh_token, logger: nil)
+    response = self.new(logger: logger).access_token_with_response(refresh_token)
     if response.success?
       response.to_h[EasyMeli::AuthorizationClient::ACCESS_TOKEN_KEY]
     else
@@ -67,7 +67,7 @@ class EasyMeli::AuthorizationClient
     post_auth(query_params)
   end
 
-  def refresh_token_with_response(refresh_token)
+  def access_token_with_response(refresh_token)
     query_params = merge_auth_params(
       grant_type: 'refresh_token',
       refresh_token: refresh_token
@@ -84,7 +84,7 @@ class EasyMeli::AuthorizationClient
   end
 
   def self.country_auth_url(country_code)
-    url = BASE_AUTH_URLS[country_code.to_s.upcase.to_sym] || 
+    url = BASE_AUTH_URLS[country_code.to_s.upcase.to_sym] ||
       (raise ArgumentError.new('%s is an invalid country code' % country_code))
     [url, AUTH_PATH].join
   end
