@@ -11,6 +11,10 @@ class EasyMeli::ApiClient
     'Malformed access_token' => 'Malformed access token'
   }
 
+  STATUS_ERRORS = {
+    429 => EasyMeli::TooManyRequestsError
+  }
+
   base_uri API_ROOT_URL 
   headers EasyMeli::DEFAULT_HEADERS
   format :json
@@ -47,6 +51,7 @@ class EasyMeli::ApiClient
     self.class.send(verb, path, params.merge(query)).tap do |response|
       logger&.log response
       check_authentication(response)
+      check_status(response)
     end
   end
 
@@ -64,5 +69,10 @@ class EasyMeli::ApiClient
   def error_message_from_body(body)
     return if body.nil?
     body['error'].to_s.empty? ? body['message'] : body['error']
+  end
+
+  def check_status(response)
+    status_error = STATUS_ERRORS[response.code]
+    raise status_error.new(response) if status_error
   end
 end

@@ -51,6 +51,13 @@ class ApiClientTest < Minitest::Test
     assert_authorization_error('message' => 'Malformed access_token')
   end
 
+  def test_status_error
+    assert_raises EasyMeli::TooManyRequestsError do
+      stub_verb_request(:get, 'test').to_return(status: 429)
+      client.get('test')
+    end
+  end
+
   def test_array_response
     stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
       to_return(body: '[{}, {}]')
