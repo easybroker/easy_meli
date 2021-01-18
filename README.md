@@ -42,16 +42,16 @@ response = EasyMeli.create_token('the_code_in_the_redirect', 'the_same_redirect_
 ```
 This will return a response object with a json body that you can easily access via `response.to_h`.
 
-If you want to refresh the token call 
+If you want to refresh the token call
 
 ```ruby
-access_token = EasyMeli.refresh_token('a_refresh_token')
+access_token = EasyMeli.access_token('a_refresh_token')
 ```
 
 Once you can have an access token you can create a client and call the supported http verb methods.
 
 ```ruby
-client = EasyMeli.api_client(refresh_token: refresh_token)
+client = EasyMeli.api_client(access_token: access_token)
 
 client.get(path, query: { a: 1 })
 client.post(path, query: { a: 1 }, body: { b: 1 })
