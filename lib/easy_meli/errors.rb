@@ -9,7 +9,9 @@ module EasyMeli
   end
 
   class AuthenticationError < Error; end
-  
+
+  class InvalidTokenError < Error; end
+
   class TooManyRequestsError < Error
     def initialize(response)
       super('Too many requests', response)
