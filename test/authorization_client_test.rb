@@ -79,7 +79,7 @@ class AuthorizationClientTest < Minitest::Test
       refresh_token: 'test_token',
       response_status: 403)
 
-    assert_raises EasyMeli::AuthenticationError do
+    assert_raises EasyMeli::AccessTokenError do
       EasyMeli::AuthorizationClient.access_token('test_token')
     end
   end
