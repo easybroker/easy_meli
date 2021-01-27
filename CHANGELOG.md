@@ -1,5 +1,8 @@
 # Changelog
 
+## V 0.6.1
+- Fix a bug in the error raising in the authorization client introduced in V 0.6.0
+
 ## V 0.6.0
 - Classify an `invalid_token` response as an `InvalidTokenError`.
 - `Malformed access_token` error changed from `AuthenticationError` to `InvalidTokenError`.
