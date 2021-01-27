@@ -45,7 +45,7 @@ class EasyMeli::AuthorizationClient
     if response.success?
       response.to_h
     else
-      raise EasyMeli::AuthenticationError.new('Error Creating Token', response)
+      raise EasyMeli::CreateTokenError.new(response)
     end
   end
 
@@ -54,7 +54,7 @@ class EasyMeli::AuthorizationClient
     if response.success?
       response.to_h[EasyMeli::AuthorizationClient::ACCESS_TOKEN_KEY]
     else
-      raise EasyMeli::AuthenticationError.new('Error Refreshing Token', response)
+      raise EasyMeli::InvalidTokenError.new(response)
     end
   end
 

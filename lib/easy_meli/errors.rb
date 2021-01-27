@@ -16,6 +16,14 @@ module EasyMeli
 
   class AuthenticationError < Error; end
 
+  class CreateTokenError < AuthenticationError
+    private
+
+    def local_message
+      'Error Creating Token'
+    end
+  end
+
   class InvalidGrantError < AuthenticationError
     private
 
