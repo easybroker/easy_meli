@@ -5,14 +5,11 @@ class EasyMeli::ApiClient
 
   API_ROOT_URL = 'https://api.mercadolibre.com'
 
-  AUTHENTICATION_ERROR_LIST = {
-    'invalid_grant' => 'Invalid Grant',
-    'forbidden' => 'Forbidden'
-  }
-
-  ACCESS_TOKEN_ERROR_LIST = {
-    'invalid_token' => 'Invalid Token',
-    'Malformed access_token' => 'Malformed access token'
+  ERROR_LIST = {
+    'invalid_grant' => EasyMeli::InvalidGrantError,
+    'forbidden' => EasyMeli::ForbiddenError,
+    'invalid_token' => EasyMeli::InvalidTokenError,
+    'Malformed access_token' => EasyMeli::MalformedTokenError
   }
 
   STATUS_ERRORS = {
@@ -60,17 +57,13 @@ class EasyMeli::ApiClient
   end
 
   def check_authentication(response)
-    raise_errors_for(EasyMeli::AuthenticationError, AUTHENTICATION_ERROR_LIST, response)
-    raise_errors_for(EasyMeli::InvalidTokenError, ACCESS_TOKEN_ERROR_LIST, response)
-  end
-
-  def raise_errors_for(exception, error_list, response)
     response_message = error_message_from_body(response.to_h) if response.parsed_response.is_a? Hash
     return if response_message.to_s.empty?
 
-    error_list.keys.each do |key|
+    ERROR_LIST.keys.each do |key|
       if response_message.include?(key)
-        raise exception.new(error_list[key], response)
+        exception = ERROR_LIST[key]
+        raise exception.new(response)
       end
     end
   end

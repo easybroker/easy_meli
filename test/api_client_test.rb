@@ -83,7 +83,7 @@ class ApiClientTest < Minitest::Test
   end
 
   def assert_token_error(body)
-    assert_raises EasyMeli::InvalidTokenError do
+    assert_raises EasyMeli::AccessTokenError do
       stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
         to_return(body: body.to_json)
       client.get('test', query: { param1: 1, param2: 2 })
