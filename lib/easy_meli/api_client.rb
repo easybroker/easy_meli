@@ -5,17 +5,18 @@ class EasyMeli::ApiClient
 
   API_ROOT_URL = 'https://api.mercadolibre.com'
 
-  TOKEN_ERRORS = {
-    'invalid_grant' => 'Invalid Grant',
-    'forbidden' => 'Forbidden',
-    'Malformed access_token' => 'Malformed access token'
+  ERROR_LIST = {
+    'invalid_grant' => EasyMeli::InvalidGrantError,
+    'forbidden' => EasyMeli::ForbiddenError,
+    'invalid_token' => EasyMeli::InvalidTokenError,
+    'Malformed access_token' => EasyMeli::MalformedTokenError
   }
 
   STATUS_ERRORS = {
     429 => EasyMeli::TooManyRequestsError
   }
 
-  base_uri API_ROOT_URL 
+  base_uri API_ROOT_URL
   headers EasyMeli::DEFAULT_HEADERS
   format :json
 
@@ -59,9 +60,10 @@ class EasyMeli::ApiClient
     response_message = error_message_from_body(response.to_h) if response.parsed_response.is_a? Hash
     return if response_message.to_s.empty?
 
-    TOKEN_ERRORS.keys.each do |key|
+    ERROR_LIST.keys.each do |key|
       if response_message.include?(key)
-        raise EasyMeli::AuthenticationError.new(TOKEN_ERRORS[key], response)
+        exception = ERROR_LIST[key]
+        raise exception.new(response)
       end
     end
   end
