@@ -57,7 +57,13 @@ class ApiClientTest < Minitest::Test
   end
 
   def test_forbidden_error
-    body = { "message":"forbidden", "error":"forbidden", "status":400, "cause":[] }
+    body = {
+      "cause"=>[],
+      "error"=>"forbidden",
+      "message"=>"The User ID must match the consultant's",
+      "status"=>403
+    }
+
     assert_authentication_error(body)
   end
 
