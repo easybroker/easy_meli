@@ -53,7 +53,7 @@ class EasyMeli::ApiClient
   end
 
   def check_for_errors(response)
-    return unless response.parsed_response.is_a? Hash
+    return unless response.parsed_response.is_a?(Hash) && !response.body.nil?
 
     exception = error_class(response)
 
@@ -63,12 +63,10 @@ class EasyMeli::ApiClient
   end
 
   def error_class(body)
-    ERROR_LIST.find { |key, _| error_message_from_body(body).include?(key) }&.last
+    ERROR_LIST.find { |key, _| error_message_from_body(body)&.include?(key) }&.last
   end
 
   def error_message_from_body(response)
-    return if response.body.nil?
-
     response['message'].to_s.empty? ? response['error'] : response['message']
   end
 end
