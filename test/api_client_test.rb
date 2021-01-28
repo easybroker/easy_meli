@@ -8,7 +8,10 @@ class ApiClientTest < Minitest::Test
   end
 
   def test_get
-    stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 })
+    body = { "plain_text":"Hello World", "last_updated":"2020-04-23T23:45:22.000Z", "date_created":"2020-04-23T23:40:21.000Z" }
+
+    stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+      to_return(body: body.to_json)
     client.get('test', query: { param1: 1, param2: 2 })
   end
 
@@ -54,7 +57,13 @@ class ApiClientTest < Minitest::Test
   end
 
   def test_forbidden_error
-    body = { "message":"forbidden", "error":"forbidden", "status":400, "cause":[] }
+    body = {
+      "cause"=>[],
+      "error"=>"forbidden",
+      "message"=>"The User ID must match the consultant's",
+      "status"=>403
+    }
+
     assert_authentication_error(body)
   end
 

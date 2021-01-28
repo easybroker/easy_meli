@@ -1,5 +1,9 @@
 # Changelog
 
+## V 0.6.3
+- Fix error when the api response doesn't include error or message keys.
+- Add right error message for forbidden error.
+
 ## V 0.6.2
 - Update Error classification mechanism to use error message as first option
 
