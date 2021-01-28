@@ -44,25 +44,37 @@ class ApiClientTest < Minitest::Test
   end
 
   def test_invalid_grant_error
-    assert_authentication_error('error' => 'invalid_grant')
+    body = {
+      "message":"Error validating grant. Your authorization code or refresh token may be expired or it was already used.",
+      "error":"invalid_grant",
+      "status":400,
+      "cause":[]
+    }
+    assert_authentication_error(body)
   end
 
   def test_forbidden_error
-    assert_authentication_error('error' => 'forbidden')
+    body = { "message":"forbidden", "error":"forbidden", "status":400, "cause":[] }
+    assert_authentication_error(body)
   end
 
   def test_message_error
-    assert_token_error('message' => 'Malformed access_token')
+    body = { "message": "Malformed access_token: test","error": "bad_request", "status": 400, "cause":[]}
+    assert_token_error(body)
   end
 
   def test_invalid_token_error
-    assert_token_error('error' => 'invalid_token')
+    body = { "message": "invalid_token", "error": "not_found", "status": 401, "cause":[] }
+    assert_token_error(body)
   end
 
-  def test_status_error
+  def test_too_many_requests_error
+    body = { "message":"","error": "too_many_requests", "status":429, "cause":[] }
+
     assert_raises EasyMeli::TooManyRequestsError do
-      stub_verb_request(:get, 'test').to_return(status: 429)
-      client.get('test')
+      stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+        to_return(body: body.to_json)
+      client.get('test', query: { param1: 1, param2: 2 })
     end
   end
 
