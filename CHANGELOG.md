@@ -1,5 +1,8 @@
 # Changelog
 
+## V 0.6.2
+- Update Error classification mechanism to use error message as first option
+
 ## V 0.6.1
 - Fix a bug in the error raising in the authorization client introduced in V 0.6.0
 
