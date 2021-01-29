@@ -65,4 +65,12 @@ module EasyMeli
       'Too many requests'
     end
   end
+
+  class UnknownError < Error
+    private
+
+    def local_message
+      'Unknown Error'
+    end
+  end
 end

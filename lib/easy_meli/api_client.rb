@@ -10,7 +10,8 @@ class EasyMeli::ApiClient
     'The User ID must match the consultant\'s' => EasyMeli::ForbiddenError,
     'invalid_token' => EasyMeli::InvalidTokenError,
     'Malformed access_token' => EasyMeli::MalformedTokenError,
-    'too_many_requests' => EasyMeli::TooManyRequestsError
+    'too_many_requests' => EasyMeli::TooManyRequestsError,
+    'unknown_error' => EasyMeli::UnknownError
   }
 
   base_uri API_ROOT_URL

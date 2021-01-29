@@ -87,6 +87,16 @@ class ApiClientTest < Minitest::Test
     end
   end
 
+  def test_unkown_error
+    body = {"message":"unknown_error","error":"","status":400,"cause":[]}
+
+    assert_raises EasyMeli::UnknownError do
+      stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+        to_return(body: body.to_json)
+      client.get('test', query: { param1: 1, param2: 2 })
+    end
+  end
+
   def test_array_response
     stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
       to_return(body: '[{}, {}]')
