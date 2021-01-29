@@ -1,5 +1,8 @@
 # Changelog
 
+## V 0.6.4
+- Add Unknown error support
+
 ## V 0.6.3
 - Fix error when the api response doesn't include error or message keys.
 - Add right error message for forbidden error.
