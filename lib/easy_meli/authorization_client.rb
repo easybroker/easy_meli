@@ -54,7 +54,9 @@ class EasyMeli::AuthorizationClient
     if response.success?
       response.to_h[EasyMeli::AuthorizationClient::ACCESS_TOKEN_KEY]
     else
-      raise EasyMeli::InvalidTokenError.new(response)
+      exception = EasyMeli::ErrorParser.error_class(response) || EasyMeli::InvalidTokenError
+
+      raise exception.new(response)
     end
   end
 

@@ -84,6 +84,27 @@ class AuthorizationClientTest < Minitest::Test
     end
   end
 
+  def test_access_token_invalid_grant
+    body = {
+      "message":"Error validating grant. Your authorization code or refresh token may be expired or it was already used.",
+      "error":"invalid_grant",
+      "status":400,
+      "cause":[]
+    }
+
+    params = {
+      grant_type: 'refresh_token',
+      refresh_token: 'test_token',
+      response_status: 400
+    }
+
+    stub_auth_request(params, body)
+
+    assert_raises EasyMeli::AuthenticationError do
+      EasyMeli::AuthorizationClient.access_token('test_token')
+    end
+  end
+
   def test_access_token_with_response(logger = nil)
     stub_auth_request(grant_type: 'refresh_token', refresh_token: 'test_token')
     response = EasyMeli::AuthorizationClient.new(logger: logger).
@@ -100,7 +121,7 @@ class AuthorizationClientTest < Minitest::Test
 
   private
 
-  def stub_auth_request(params = {})
+  def stub_auth_request(params = {}, response = DUMMY_TOKEN_RESPONSE)
     response_status = params.delete(:response_status) || 200
     stub_request(:post, EasyMeli::AuthorizationClient::AUTH_TOKEN_URL).
       with(query:
@@ -110,6 +131,6 @@ class AuthorizationClientTest < Minitest::Test
         ),
         headers: EasyMeli::DEFAULT_HEADERS
       ).
-      to_return(body: DUMMY_TOKEN_RESPONSE.to_json, status: response_status)
+      to_return(body: response.to_json, status: response_status)
   end
 end

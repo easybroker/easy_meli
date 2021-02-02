@@ -5,15 +5,6 @@ class EasyMeli::ApiClient
 
   API_ROOT_URL = 'https://api.mercadolibre.com'
 
-  ERROR_LIST = {
-    'Error validating grant' => EasyMeli::InvalidGrantError,
-    'The User ID must match the consultant\'s' => EasyMeli::ForbiddenError,
-    'invalid_token' => EasyMeli::InvalidTokenError,
-    'Malformed access_token' => EasyMeli::MalformedTokenError,
-    'too_many_requests' => EasyMeli::TooManyRequestsError,
-    'unknown_error' => EasyMeli::UnknownError
-  }
-
   base_uri API_ROOT_URL
   headers EasyMeli::DEFAULT_HEADERS
   format :json
@@ -49,25 +40,26 @@ class EasyMeli::ApiClient
 
     self.class.send(verb, path, params.merge(query)).tap do |response|
       logger&.log response
+      check_status(response)
       check_for_errors(response)
     end
   end
 
-  def check_for_errors(response)
-    return unless response.parsed_response.is_a?(Hash) && !response.body.nil?
-
-    exception = error_class(response)
+  def check_status(response)
+    exception = EasyMeli::ErrorParser.status_error_class(response)
 
     if exception
       raise exception.new(response)
     end
   end
 
-  def error_class(body)
-    ERROR_LIST.find { |key, _| error_message_from_body(body)&.include?(key) }&.last
-  end
+  def check_for_errors(response)
+    return unless response.parsed_response.is_a?(Hash) && !response.body.nil?
 
-  def error_message_from_body(response)
-    response['message'].to_s.empty? ? response['error'] : response['message']
+    exception = EasyMeli::ErrorParser.error_class(response)
+
+    if exception
+      raise exception.new(response)
+    end
   end
 end

@@ -97,6 +97,16 @@ class ApiClientTest < Minitest::Test
     end
   end
 
+  def test_service_unavailable_error
+    body = nil
+
+    assert_raises EasyMeli::ServiceUnavailableError do
+      stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+        to_return(body: body.to_json, status: 503)
+      client.get('test', query: { param1: 1, param2: 2 })
+    end
+  end
+
   def test_array_response
     stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
       to_return(body: '[{}, {}]')
