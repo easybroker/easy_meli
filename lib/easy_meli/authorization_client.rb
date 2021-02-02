@@ -22,15 +22,6 @@ class EasyMeli::AuthorizationClient
   }
   ACCESS_TOKEN_KEY = 'access_token'
 
-  ERROR_LIST = {
-    'Error validating grant' => EasyMeli::InvalidGrantError,
-    'The User ID must match the consultant\'s' => EasyMeli::ForbiddenError,
-    'invalid_token' => EasyMeli::InvalidTokenError,
-    'Malformed access_token' => EasyMeli::MalformedTokenError,
-    'too_many_requests' => EasyMeli::TooManyRequestsError,
-    'unknown_error' => EasyMeli::UnknownError
-  }
-
   headers EasyMeli::DEFAULT_HEADERS
   format :json
 
@@ -63,7 +54,7 @@ class EasyMeli::AuthorizationClient
     if response.success?
       response.to_h[EasyMeli::AuthorizationClient::ACCESS_TOKEN_KEY]
     else
-      exception = self.error_class(response)
+      exception = EasyMeli::ErrorParser.error_class(response) || EasyMeli::InvalidTokenError
 
       raise exception.new(response)
     end
@@ -105,13 +96,5 @@ class EasyMeli::AuthorizationClient
       client_id: EasyMeli.configuration.application_id,
       client_secret: EasyMeli.configuration.secret_key
     )
-  end
-
-  def self.error_class(body)
-    ERROR_LIST.find { |key, _| self.error_message_from_body(body)&.include?(key) }&.last || EasyMeli::InvalidTokenError
-  end
-
-  def self.error_message_from_body(response)
-    response['message'].to_s.empty? ? response['error'] : response['message']
   end
 end
