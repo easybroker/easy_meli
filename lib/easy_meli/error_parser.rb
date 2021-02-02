@@ -8,13 +8,31 @@ class EasyMeli::ErrorParser
     'unknown_error' => EasyMeli::UnknownError
   }
 
-  def self.error_class(body)
-    ERROR_LIST.find { |key, _| self.error_message_from_body(body)&.include?(key) }&.last
+  STATUS_ERRORS = {
+    500 => EasyMeli::InternalServerError,
+    501 => EasyMeli::NotImplementedError,
+    502 => EasyMeli::BadGatewayError,
+    503 => EasyMeli::ServiceUnavailableError,
+    504 => EasyMeli::GatewayTimeoutError
+  }
+
+  def self.error_class(response)
+    ERROR_LIST.find { |key, _| self.error_message_from_body(response)&.include?(key) }&.last
+  end
+
+  def self.status_error_class(response)
+    return unless self.server_side_error?(response)
+
+    STATUS_ERRORS[response.code] || EasyMeli::ServerError
   end
 
   private
 
   def self.error_message_from_body(response)
     response['message'].to_s.empty? ? response['error'] : response['message']
+  end
+
+  def self.server_side_error?(response)
+    response.code >= 500
   end
 end

@@ -16,4 +16,20 @@ class ErrorParserTest < Minitest::Test
 
     assert_equal EasyMeli::TooManyRequestsError, EasyMeli::ErrorParser.error_class(body)
   end
+
+  def test_status_error_class
+    response = mock()
+    response.stubs(code: 503)
+
+    assert_equal EasyMeli::ServiceUnavailableError, EasyMeli::ErrorParser.status_error_class(response)
+
+    response = mock()
+    response.stubs(code: 599)
+
+    assert_equal EasyMeli::ServerError, EasyMeli::ErrorParser.status_error_class(response)
+
+    response.stubs(code: 200)
+
+    assert_nil EasyMeli::ErrorParser.status_error_class(response)
+  end
 end

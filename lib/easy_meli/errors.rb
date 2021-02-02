@@ -73,4 +73,52 @@ module EasyMeli
       'Unknown Error'
     end
   end
+
+  class ServerError < Error
+    private
+
+    def local_message
+      'Server Error'
+    end
+  end
+
+  class InternalServerError < ServerError
+    private
+
+    def local_message
+      'Internal Server Error'
+    end
+  end
+
+  class NotImplementedError < ServerError
+    private
+
+    def local_message
+      'Not Implemented'
+    end
+  end
+
+  class BadGatewayError < ServerError
+    private
+
+    def local_message
+      'Bad Gateway'
+    end
+  end
+
+  class ServiceUnavailableError < ServerError
+    private
+
+    def local_message
+      'Service Unavailable'
+    end
+  end
+
+  class GatewayTimeoutError < ServerError
+    private
+
+    def local_message
+      'Gateway Timeout'
+    end
+  end
 end

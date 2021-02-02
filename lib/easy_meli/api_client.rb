@@ -40,7 +40,16 @@ class EasyMeli::ApiClient
 
     self.class.send(verb, path, params.merge(query)).tap do |response|
       logger&.log response
+      check_status(response)
       check_for_errors(response)
+    end
+  end
+
+  def check_status(response)
+    exception = EasyMeli::ErrorParser.status_error_class(response)
+
+    if exception
+      raise exception.new(response)
     end
   end
 
