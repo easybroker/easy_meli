@@ -77,6 +77,16 @@ class ApiClientTest < Minitest::Test
     assert_token_error(body)
   end
 
+  def test_unauthorized_status_code_error
+    body = { "message": "Invalid token", "error": "not_found", "status": 401, "cause":[] }
+
+    assert_raises EasyMeli::AccessTokenError do
+      stub_verb_request(:post, 'test', query: { param1: 1, param2: 2 }, body: 'param3=3').
+        to_return(body: body.to_json, status: [401, "unauthorized"])
+      client.post('test', query: { param1: 1, param2: 2 }, body: { param3: 3})
+    end
+  end
+
   def test_too_many_requests_error
     body = { "message":"","error": "too_many_requests", "status":429, "cause":[] }
 

@@ -28,6 +28,12 @@ class ErrorParserTest < Minitest::Test
 
     assert_equal EasyMeli::ServerError, EasyMeli::ErrorParser.status_error_class(response)
 
+
+    response = mock()
+    response.stubs(code: 401)
+
+    assert_equal EasyMeli::InvalidTokenError, EasyMeli::ErrorParser.status_error_class(response)
+
     response.stubs(code: 200)
 
     assert_nil EasyMeli::ErrorParser.status_error_class(response)

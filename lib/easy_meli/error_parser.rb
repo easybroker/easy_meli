@@ -9,6 +9,7 @@ class EasyMeli::ErrorParser
   }
 
   STATUS_ERRORS = {
+    401 => EasyMeli::InvalidTokenError,
     500 => EasyMeli::InternalServerError,
     501 => EasyMeli::NotImplementedError,
     502 => EasyMeli::BadGatewayError,
@@ -21,7 +22,7 @@ class EasyMeli::ErrorParser
   end
 
   def self.status_error_class(response)
-    return unless self.server_side_error?(response)
+    return unless self.status_code_listed?(response) || self.server_side_error?(response)
 
     STATUS_ERRORS[response.code] || EasyMeli::ServerError
   end
@@ -34,5 +35,9 @@ class EasyMeli::ErrorParser
 
   def self.server_side_error?(response)
     response.code >= 500
+  end
+
+  def self.status_code_listed?(response)
+    STATUS_ERRORS.keys.include?(response.code)
   end
 end

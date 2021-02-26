@@ -1,5 +1,8 @@
 # Changelog
 
+## V 0.6.6
+- Classify status code 401 as EasyMeli::InvalidTokenError.
+
 ## V 0.6.5
 - Move Error class search to its own class and reuse it for ApiClient and AuthorizationClient
 - Raise EasyMeli exceptions for server side errors.
