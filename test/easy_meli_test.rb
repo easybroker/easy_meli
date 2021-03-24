@@ -25,10 +25,10 @@ class EasyMeliTest < Minitest::Test
     EasyMeli.access_token('foo')
   end
 
-  def test_api_client_with_access_token
+  def test_api_client_with_refresh_token
     EasyMeli::AuthorizationClient.expects(:access_token).with('foo', logger: nil).returns('bar')
     EasyMeli::ApiClient.expects(:new).with('bar', logger: nil)
-    EasyMeli.api_client(access_token: 'foo')
+    EasyMeli.api_client(refresh_token: 'foo')
   end
 
   def test_api_client_with_access_token
