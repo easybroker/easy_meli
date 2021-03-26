@@ -6,7 +6,6 @@ class EasyMeli::ApiClient
   API_ROOT_URL = 'https://api.mercadolibre.com'
 
   base_uri API_ROOT_URL
-  headers EasyMeli::DEFAULT_HEADERS
   format :json
 
   attr_reader :logger, :access_token
@@ -36,7 +35,7 @@ class EasyMeli::ApiClient
 
   def send_request(verb, path = '', params = {})
     query = params[:query] || params['query'] || {}
-    query[:access_token] = access_token if access_token
+    params[:headers] = EasyMeli::DEFAULT_HEADERS.merge(authorization_header)
 
     self.class.send(verb, path, params.merge(query)).tap do |response|
       logger&.log response
@@ -61,5 +60,11 @@ class EasyMeli::ApiClient
     if exception
       raise exception.new(response)
     end
+  end
+
+  def authorization_header
+    return {} unless access_token
+
+    { Authorization: "Bearer #{access_token}" }
   end
 end

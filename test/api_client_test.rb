@@ -143,8 +143,10 @@ class ApiClientTest < Minitest::Test
 
   def stub_verb_request(verb, path, params = {})
     params[:query] = query = params[:query] || {}
-    params[:headers] = EasyMeli::DEFAULT_HEADERS
-    query[:access_token] = client.access_token if client.access_token
+    authorization_header = client.access_token ? { Authorization: "Bearer #{client.access_token}" } : {}
+
+    params[:headers] = EasyMeli::DEFAULT_HEADERS.merge(authorization_header)
+
     url = [EasyMeli::ApiClient::API_ROOT_URL, path].join
     stub_request(verb, url).with(params)
   end

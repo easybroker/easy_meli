@@ -63,7 +63,7 @@ You can also pass a logger to any methods that make remote calls. The logger cla
 
 ```ruby
 EasyMeli.create_token('the_code_in_the_redirect', 'the_same_redirect_url_as_above', logger: my_logger)
-EasyMeli.api_client(refresh_token: refresh_token, logger: my_logger)
+EasyMeli.api_client(access_token: access_token, logger: my_logger)
 ```
 
 ### Example of how to retrieve a user profile
@@ -73,8 +73,8 @@ EasyMeli.configure do |config|
   config.secret_key = "your_secret_key"
 end
 
-api_client = EasyMeli.api_client(refresh_token: refresh_token)
-response = api_client.get('/users/me')
+client = EasyMeli.api_client(access_token: access_token)
+response = client.get('/users/me')
 
 ```
 
