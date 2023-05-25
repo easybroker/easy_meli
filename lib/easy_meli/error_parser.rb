@@ -18,7 +18,9 @@ class EasyMeli::ErrorParser
   }
 
   def self.error_class(response)
-    ERROR_LIST.find { |key, _| self.error_message_from_body(response)&.include?(key) }&.last
+    find_in_error_list(response['message']) ||
+    find_in_error_list(response['error']) ||
+    find_in_error_list(response['error_description'])
   end
 
   def self.status_error_class(response)
@@ -29,8 +31,8 @@ class EasyMeli::ErrorParser
 
   private
 
-  def self.error_message_from_body(response)
-    response['message'].to_s.empty? ? response['error'] : response['message']
+  def self.find_in_error_list(response_field)
+    ERROR_LIST.find { |key, _| response_field&.include?(key) }&.last
   end
 
   def self.server_side_error?(response)
