@@ -1,4 +1,6 @@
 class EasyMeli::ErrorParser
+  ERROR_FIELDS = %w[message error error_description]
+
   ERROR_LIST = {
     'Error validating grant' => EasyMeli::InvalidGrantError,
     'The User ID must match the consultant\'s' => EasyMeli::ForbiddenError,
@@ -18,7 +20,11 @@ class EasyMeli::ErrorParser
   }
 
   def self.error_class(response)
-    ERROR_LIST.find { |key, _| self.error_message_from_body(response)&.include?(key) }&.last
+    ERROR_FIELDS.each do |field|
+      error = find_in_error_list(response[field])
+      return error if error
+    end
+    nil
   end
 
   def self.status_error_class(response)
@@ -29,8 +35,10 @@ class EasyMeli::ErrorParser
 
   private
 
-  def self.error_message_from_body(response)
-    response['message'].to_s.empty? ? response['error'] : response['message']
+  def self.find_in_error_list(response_field)
+    return if response_field.to_s.empty?
+
+    ERROR_LIST.find { |key, _| response_field&.include?(key) }&.last
   end
 
   def self.server_side_error?(response)

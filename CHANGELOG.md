@@ -1,5 +1,8 @@
 # Changelog
 
+## V 0.6.8
+- Fix error when the api response includes error_description instead of message key.
+
 ## V 0.6.7
 - Send `access_token` in the Authorization Header instead of the query params [See Official Documentation](https://developers.mercadolibre.com.ar/es_ar/desarrollo-seguro#header)
 

@@ -3,7 +3,7 @@ require "test_helper"
 class ErrorParserTest < Minitest::Test
   def test_error_class
     body = {
-      "message" => "Error validating grant. Your authorization code or refresh token may be expired or it was already used.",
+      "error_description" => "Error validating grant. Your authorization code or refresh token may be expired or it was already used.",
       "error" => "invalid_grant",
       "status" => 400,
       "cause" => []

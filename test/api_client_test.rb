@@ -48,7 +48,7 @@ class ApiClientTest < Minitest::Test
 
   def test_invalid_grant_error
     body = {
-      "message":"Error validating grant. Your authorization code or refresh token may be expired or it was already used.",
+      "error_description":"Error validating grant. Your authorization code or refresh token may be expired or it was already used.",
       "error":"invalid_grant",
       "status":400,
       "cause":[]
