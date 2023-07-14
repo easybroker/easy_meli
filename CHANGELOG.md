@@ -1,5 +1,8 @@
 # Changelog
 
+## V 0.6.9
+- Update httparty dependency from 0.18 to 0.21
+
 ## V 0.6.8
 - Fix error when the api response includes error_description instead of message key.
 
