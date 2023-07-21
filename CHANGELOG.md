@@ -1,5 +1,10 @@
 # Changelog
 
+## V 0.6.10
+- Update bundler from 2.2.24 to 2.3.6
+- Add rexml 3.2.5 dependency to make the Gem compatible with Ruby 3.1
+- Update minitest from 5.14.0 to 5.18 to make the Gem compatible with Ruby 3.1
+
 ## V 0.6.9
 - Update httparty dependency from 0.18 to 0.21
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    easy_meli (0.6.9)
+    easy_meli (0.6.10)
       httparty (~> 0.21)
       rexml (~> 3.2.5)
 
@@ -40,7 +40,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 2.3.6)
   easy_meli!
-  minitest (~> 5.0)
+  minitest (~> 5.18)
   mocha
   pry
   rake (~> 13.0)
