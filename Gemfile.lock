@@ -36,7 +36,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 2.2.24)
+  bundler (~> 2.3.6)
   easy_meli!
   minitest (~> 5.0)
   mocha
@@ -45,4 +45,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.2.24
+   2.3.6
