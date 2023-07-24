@@ -30,10 +30,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "httparty", "~> 0.21"
+  spec.add_dependency "rexml", "~> 3.2.5"
 
-  spec.add_development_dependency "bundler", "~> 2.2.24"
+  spec.add_development_dependency "bundler", "~> 2.3.6"
   spec.add_development_dependency "rake", "~> 13.0"
-  spec.add_development_dependency "minitest", "~> 5.0"
+  spec.add_development_dependency "minitest", "~> 5.18"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "webmock"
   spec.add_development_dependency "mocha"
