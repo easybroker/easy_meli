@@ -12,6 +12,7 @@ class EasyMeli::ErrorParser
 
   STATUS_ERRORS = {
     401 => EasyMeli::InvalidTokenError,
+    403 => EasyMeli::ForbiddenError,
     500 => EasyMeli::InternalServerError,
     501 => EasyMeli::NotImplementedError,
     502 => EasyMeli::BadGatewayError,
