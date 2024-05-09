@@ -1,6 +1,6 @@
 # Changelog
 
-## V 0.6.10
+## V 0.6.11
 - Add 403 response to the list of mapped errors
 
 ## V 0.6.10
