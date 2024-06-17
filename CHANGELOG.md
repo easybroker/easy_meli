@@ -1,5 +1,8 @@
 # Changelog
 
+## V 0.6.12
+- Update rexml from 3.2.5 to 3.2.9
+
 ## V 0.6.11
 - Add 403 response to the list of mapped errors
 
