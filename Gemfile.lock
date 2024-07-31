@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    easy_meli (0.6.13)
+    easy_meli (0.6.14)
       httparty (~> 0.21)
+      multi_xml (~> 0.6.0)
       rexml (~> 3.3.2)
 
 GEM
@@ -10,7 +11,6 @@ GEM
   specs:
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    bigdecimal (3.1.8)
     coderay (1.1.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -24,8 +24,7 @@ GEM
     mini_mime (1.1.5)
     minitest (5.18.1)
     mocha (1.11.2)
-    multi_xml (0.7.1)
-      bigdecimal (~> 3.1)
+    multi_xml (0.6.0)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
