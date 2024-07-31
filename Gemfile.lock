@@ -1,36 +1,36 @@
 PATH
   remote: .
   specs:
-    easy_meli (0.6.13)
+    easy_meli (0.6.12)
       httparty (~> 0.21)
+      rexml (~> 3.3.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    bigdecimal (3.1.8)
     coderay (1.1.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    csv (3.3.0)
     hashdiff (1.0.1)
-    httparty (0.22.0)
-      csv
+    httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     method_source (1.0.0)
     mini_mime (1.1.5)
     minitest (5.18.1)
     mocha (1.11.2)
-    multi_xml (0.7.1)
-      bigdecimal (~> 3.1)
+    multi_xml (0.6.0)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (4.0.6)
     rake (13.0.1)
+    rexml (3.3.2)
+      strscan
     safe_yaml (1.0.5)
+    strscan (3.1.0)
     webmock (3.8.3)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
