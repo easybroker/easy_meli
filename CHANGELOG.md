@@ -1,4 +1,7 @@
 # Changelog
+## V 0.6.15
+- Update rexml from 3.3.2 to 3.3.7
+
 ## V 0.6.14
 - Fix dependencies for ruby 2
 

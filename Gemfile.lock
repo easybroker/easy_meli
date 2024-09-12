@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    easy_meli (0.6.14)
+    easy_meli (0.6.15)
       httparty (~> 0.21)
       multi_xml (~> 0.6.0)
-      rexml (~> 3.3.2)
+      rexml (~> 3.3.7)
 
 GEM
   remote: https://rubygems.org/
@@ -30,10 +30,8 @@ GEM
       method_source (~> 1.0)
     public_suffix (4.0.6)
     rake (13.0.1)
-    rexml (3.3.2)
-      strscan
+    rexml (3.3.7)
     safe_yaml (1.0.5)
-    strscan (3.1.0)
     webmock (3.8.3)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)

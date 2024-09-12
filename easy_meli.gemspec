@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "httparty", "~> 0.21"
-  spec.add_dependency "rexml", "~> 3.3.2"
+  spec.add_dependency "rexml", "~> 3.3.7"
   spec.add_dependency "multi_xml", "~> 0.6.0"
 
   spec.add_development_dependency "bundler", "~> 2.3.6"
