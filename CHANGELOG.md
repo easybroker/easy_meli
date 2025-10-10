@@ -1,4 +1,7 @@
 # Changelog
+## V 0.6.17
+- Update rexml from 3.3.9 to 3.4.2
+
 ## V 0.6.15
 - Update rexml from 3.3.7 to 3.3.9
 

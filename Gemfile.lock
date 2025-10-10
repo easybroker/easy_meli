@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    easy_meli (0.6.16)
+    easy_meli (0.6.17)
       httparty (~> 0.21)
       multi_xml (~> 0.6.0)
       rexml (~> 3.4.2)
@@ -14,9 +14,9 @@ GEM
     coderay (1.1.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    csv (3.3.0)
+    csv (3.3.5)
     hashdiff (1.0.1)
-    httparty (0.22.0)
+    httparty (0.23.2)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
