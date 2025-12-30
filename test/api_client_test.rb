@@ -10,30 +10,30 @@ class ApiClientTest < Minitest::Test
   def test_get
     body = { "plain_text":"Hello World", "last_updated":"2020-04-23T23:45:22.000Z", "date_created":"2020-04-23T23:40:21.000Z" }
 
-    stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+    stub_verb_request(:get, '/test', query: { param1: 1, param2: 2 }).
       to_return(body: body.to_json)
-    client.get('test', query: { param1: 1, param2: 2 })
+    client.get('/test', query: { param1: 1, param2: 2 })
   end
 
   def test_get_without_access_token
     @client = EasyMeli::ApiClient.new(nil)
-    stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 })
-    client.get('test', query: { param1: 1, param2: 2 })
+    stub_verb_request(:get, '/test', query: { param1: 1, param2: 2 })
+    client.get('/test', query: { param1: 1, param2: 2 })
   end
 
   def test_put
-    stub_verb_request(:put, 'test', query: { param1: 1, param2: 2 }, body: 'param3=3')
-    client.put('test', query: { param1: 1, param2: 2}, body: { param3: 3})
+    stub_verb_request(:put, '/test', query: { param1: 1, param2: 2 }, body: 'param3=3')
+    client.put('/test', query: { param1: 1, param2: 2}, body: { param3: 3})
   end
 
   def test_post
-    stub_verb_request(:post, 'test', query: { param1: 1, param2: 2 }, body: 'param3=3')
-    client.post('test', query: { param1: 1, param2: 2 }, body: { param3: 3})
+    stub_verb_request(:post, '/test', query: { param1: 1, param2: 2 }, body: 'param3=3')
+    client.post('/test', query: { param1: 1, param2: 2 }, body: { param3: 3})
   end
 
   def test_delete
-    stub_verb_request(:delete, 'test', query: { param1: 1, param2: 2 })
-    client.delete('test', query: { param1: 1, param2: 2 })
+    stub_verb_request(:delete, '/test', query: { param1: 1, param2: 2 })
+    client.delete('/test', query: { param1: 1, param2: 2 })
   end
 
   def test_logger
@@ -81,9 +81,9 @@ class ApiClientTest < Minitest::Test
     body = { "message": "Invalid token", "error": "not_found", "status": 401, "cause":[] }
 
     assert_raises EasyMeli::AccessTokenError do
-      stub_verb_request(:post, 'test', query: { param1: 1, param2: 2 }, body: 'param3=3').
+      stub_verb_request(:post, '/test', query: { param1: 1, param2: 2 }, body: 'param3=3').
         to_return(body: body.to_json, status: [401, "unauthorized"])
-      client.post('test', query: { param1: 1, param2: 2 }, body: { param3: 3})
+      client.post('/test', query: { param1: 1, param2: 2 }, body: { param3: 3})
     end
   end
 
@@ -91,9 +91,9 @@ class ApiClientTest < Minitest::Test
     body = { "message":"","error": "too_many_requests", "status":429, "cause":[] }
 
     assert_raises EasyMeli::TooManyRequestsError do
-      stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+      stub_verb_request(:get, '/test', query: { param1: 1, param2: 2 }).
         to_return(body: body.to_json)
-      client.get('test', query: { param1: 1, param2: 2 })
+      client.get('/test', query: { param1: 1, param2: 2 })
     end
   end
 
@@ -101,9 +101,9 @@ class ApiClientTest < Minitest::Test
     body = {"message":"unknown_error","error":"","status":400,"cause":[]}
 
     assert_raises EasyMeli::UnknownError do
-      stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+      stub_verb_request(:get, '/test', query: { param1: 1, param2: 2 }).
         to_return(body: body.to_json)
-      client.get('test', query: { param1: 1, param2: 2 })
+      client.get('/test', query: { param1: 1, param2: 2 })
     end
   end
 
@@ -111,33 +111,33 @@ class ApiClientTest < Minitest::Test
     body = nil
 
     assert_raises EasyMeli::ServiceUnavailableError do
-      stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+      stub_verb_request(:get, '/test', query: { param1: 1, param2: 2 }).
         to_return(body: body.to_json, status: 503)
-      client.get('test', query: { param1: 1, param2: 2 })
+      client.get('/test', query: { param1: 1, param2: 2 })
     end
   end
 
   def test_array_response
-    stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+    stub_verb_request(:get, '/test', query: { param1: 1, param2: 2 }).
       to_return(body: '[{}, {}]')
-    client.get('test', query: { param1: 1, param2: 2 })
+    client.get('/test', query: { param1: 1, param2: 2 })
   end
 
   private
 
   def assert_authentication_error(body)
     assert_raises EasyMeli::AuthenticationError do
-      stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+      stub_verb_request(:get, '/test', query: { param1: 1, param2: 2 }).
         to_return(body: body.to_json)
-      client.get('test', query: { param1: 1, param2: 2 })
+      client.get('/test', query: { param1: 1, param2: 2 })
     end
   end
 
   def assert_token_error(body)
     assert_raises EasyMeli::AccessTokenError do
-      stub_verb_request(:get, 'test', query: { param1: 1, param2: 2 }).
+      stub_verb_request(:get, '/test', query: { param1: 1, param2: 2 }).
         to_return(body: body.to_json)
-      client.get('test', query: { param1: 1, param2: 2 })
+      client.get('/test', query: { param1: 1, param2: 2 })
     end
   end
 

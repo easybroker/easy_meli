@@ -2,43 +2,50 @@ PATH
   remote: .
   specs:
     easy_meli (0.6.17)
-      httparty (~> 0.21)
+      httparty (~> 0.24)
       multi_xml (~> 0.6.0)
       rexml (~> 3.4.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.8.0)
-      public_suffix (>= 2.0.2, < 5.0)
-    coderay (1.1.2)
-    crack (0.4.3)
-      safe_yaml (~> 1.0.0)
+    addressable (2.8.8)
+      public_suffix (>= 2.0.2, < 8.0)
+    bigdecimal (4.0.1)
+    coderay (1.1.3)
+    crack (1.0.1)
+      bigdecimal
+      rexml
     csv (3.3.5)
-    hashdiff (1.0.1)
-    httparty (0.23.2)
+    hashdiff (1.2.1)
+    httparty (0.24.0)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
-    method_source (1.0.0)
+    io-console (0.8.2)
+    method_source (1.1.0)
     mini_mime (1.1.5)
-    minitest (5.18.1)
-    mocha (1.11.2)
+    minitest (5.27.0)
+    mocha (3.0.1)
+      ruby2_keywords (>= 0.0.5)
     multi_xml (0.6.0)
-    pry (0.13.1)
+    pry (0.16.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    public_suffix (4.0.6)
-    rake (13.0.1)
+      reline (>= 0.6.0)
+    public_suffix (7.0.0)
+    rake (13.3.1)
+    reline (0.6.3)
+      io-console (~> 0.5)
     rexml (3.4.4)
-    safe_yaml (1.0.5)
-    webmock (3.8.3)
-      addressable (>= 2.3.6)
+    ruby2_keywords (0.0.5)
+    webmock (3.26.1)
+      addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
-  ruby
+  arm64-darwin-25
 
 DEPENDENCIES
   bundler (~> 2.3.6)
@@ -50,4 +57,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.3.6
+   2.3.27
