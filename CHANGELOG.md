@@ -1,4 +1,8 @@
 # Changelog
+## V 0.6.18
+- Update httparty from ~> 0.21 to ~> 0.24 (security fix for CVE-2025-68696 - SSRF vulnerability)
+- Fix tests to use proper path format with leading slash
+
 ## V 0.6.17
 - Update rexml from 3.3.9 to 3.4.2
 
