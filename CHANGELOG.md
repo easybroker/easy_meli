@@ -1,4 +1,7 @@
 # Changelog
+## V 0.6.19
+- Update addressable from 2.8.8 to 2.9.0 (security fix for ReDoS vulnerability in Addressable templates)
+
 ## V 0.6.18
 - Update httparty from ~> 0.21 to ~> 0.24 (security fix for CVE-2025-68696 - SSRF vulnerability)
 - Fix tests to use proper path format with leading slash
