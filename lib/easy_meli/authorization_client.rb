@@ -50,9 +50,13 @@ class EasyMeli::AuthorizationClient
   end
 
   def self.access_token(refresh_token, logger: nil)
+    refresh_tokens(refresh_token, logger: logger)[EasyMeli::AuthorizationClient::ACCESS_TOKEN_KEY]
+  end
+
+  def self.refresh_tokens(refresh_token, logger: nil)
     response = self.new(logger: logger).access_token_with_response(refresh_token)
     if response.success?
-      response.to_h[EasyMeli::AuthorizationClient::ACCESS_TOKEN_KEY]
+      response.to_h
     else
       exception = EasyMeli::ErrorParser.error_class(response) || EasyMeli::InvalidTokenError
 
