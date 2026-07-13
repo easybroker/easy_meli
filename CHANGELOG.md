@@ -1,4 +1,7 @@
 # Changelog
+## V 0.6.20
+- Return the complete token payload when refreshing tokens so clients can persist Mercado Libre's rotated refresh token.
+
 ## V 0.6.19
 - Update addressable from 2.8.8 to 2.9.0 (security fix for ReDoS vulnerability in Addressable templates)
 

@@ -42,7 +42,17 @@ response = EasyMeli.create_token('the_code_in_the_redirect', 'the_same_redirect_
 ```
 This will return a response object with a json body that you can easily access via `response.to_h`.
 
-If you want to refresh the token call
+To refresh an access token and preserve Mercado Libre's rotated refresh token, call
+
+```ruby
+tokens = EasyMeli.refresh_tokens('a_refresh_token')
+access_token = tokens['access_token']
+refresh_token = tokens['refresh_token']
+```
+
+Store the returned refresh token after every successful refresh. Mercado Libre refresh tokens are single-use, so the token passed to `refresh_tokens` is no longer valid after the exchange succeeds.
+
+If you only need the new access token, call
 
 ```ruby
 access_token = EasyMeli.access_token('a_refresh_token')

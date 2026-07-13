@@ -73,6 +73,13 @@ class AuthorizationClientTest < Minitest::Test
     assert_equal DUMMY_TOKEN_RESPONSE['access_token'], access_token
   end
 
+  def test_refresh_tokens
+    stub_auth_request(grant_type: 'refresh_token', refresh_token: 'test_token')
+    tokens = EasyMeli::AuthorizationClient.refresh_tokens('test_token')
+
+    assert_equal DUMMY_TOKEN_RESPONSE, tokens
+  end
+
   def test_access_token_fail
     stub_auth_request(
       grant_type: 'refresh_token',
@@ -102,6 +109,27 @@ class AuthorizationClientTest < Minitest::Test
 
     assert_raises EasyMeli::AuthenticationError do
       EasyMeli::AuthorizationClient.access_token('test_token')
+    end
+  end
+
+  def test_refresh_tokens_invalid_grant
+    body = {
+      "error_description":"Error validating grant. Your authorization code or refresh token may be expired or it was already used.",
+      "error":"invalid_grant",
+      "status":400,
+      "cause":[]
+    }
+
+    params = {
+      grant_type: 'refresh_token',
+      refresh_token: 'test_token',
+      response_status: 400
+    }
+
+    stub_auth_request(params, body)
+
+    assert_raises EasyMeli::AuthenticationError do
+      EasyMeli::AuthorizationClient.refresh_tokens('test_token')
     end
   end
 
