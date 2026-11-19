@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    easy_meli (0.6.20)
+    easy_meli (0.6.21)
       httparty (~> 0.24)
       multi_xml (~> 0.6.0)
       rexml (~> 3.4.2)
@@ -9,7 +9,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.9.0)
+    addressable (2.9.2)
       public_suffix (>= 2.0.2, < 8.0)
     bigdecimal (4.0.1)
     coderay (1.1.3)
