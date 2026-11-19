@@ -1,4 +1,7 @@
 # Changelog
+## V 0.6.21
+- Update addressable from 2.9.0 to 2.9.2 (security fixes for 6 Dependabot alerts on addressable 2.9.0)
+
 ## V 0.6.20
 - Return the complete token payload when refreshing tokens so clients can persist Mercado Libre's rotated refresh token.
 
